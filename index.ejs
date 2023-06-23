@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гугол</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 50px;
+        }
+
+        form {
+            display: block;
+            justify-content: center;
+            align-items: center;
+            padding-top: 80px;
+            padding-bottom: 50px;
+        }
+
+        tr {
+            display: flex;
+            gap: 30px;
+        }
+
+        .search__result {
+            width: 500px;
+            text-align: left;
+            margin-bottom: 30px;
+            position: relative;
+            right: 25%;
+        }
+
+        .search__title {
+            width: 500px;
+            text-align: left;
+            margin-bottom: 30px;
+            position: relative;
+            right: 25%;
+        }
+
+        .downloaded__file {
+            width: 100px;
+            text-align: right;
+            margin-bottom: 30px;
+            position: absolute;
+            left: 75%;
+        }
+
+        .info {
+            display: flex;
+            gap: 40px;
+        }
+
+        .downloadContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        footer {
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Гугол (для гитхаба второго семестра)</h1>
+    <form class="form" method="post">
+        <input type="text" name="inputRequest" id="inputRequest">
+        <input type="submit" name="submit" id="submit">
+    </form>
+    <a href="del">Очистить историю🤫</a>
+    <section class="info">
+        <div class="resContainer">
+            <h2>История просмотра</h2>
+            <%- searchResult %>
+        </div>
+        <div class="downloadContainer">
+            <h2>История загрузок</h2>
+            <%- downloadHistory %>
+        </div>
+    </section>
+    <footer>
+        <p>Сделал Ролан Зарипов</p>
+    </footer>
+</body>
+<script src="ejs.js"></script>
+<script>
+    //Добавление истории загрузки
+    let links = document.querySelectorAll(".link")
+    links = [...links]
+    links.forEach(elem => {
+        elem.addEventListener("click", (e) => {
+            //дата и время загрузки (фича)
+            let date = new Date().toLocaleString();
+            const regexp = /^.*\//
+            const fileUrl = elem.textContent
+            const fileName = fileUrl.replace(regexp, '');
+            localStorage.setItem(fileName, fileUrl);
+            document.querySelector(".downloadContainer").innerHTML += `<div><a href=${localStorage.getItem(fileName)}>${date} | ${fileName}</a></div>`
+        })
+    });
+</script>
+
+</html>
